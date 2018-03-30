@@ -14,7 +14,7 @@ var router = require('./routes/routes');
 var app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/FoosballEloDb');
+mongoose.connect('mongodb://' + process.env.MONGODB_HOST + '/FoosballEloDb');
 
 
 // view engine setup

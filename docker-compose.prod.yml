@@ -1,0 +1,56 @@
+version: '3'
+services:
+  app:
+    image: focuscura/foosballelo-api
+    build:
+      dockerfile: docker/app/Dockerfile
+      context: .
+    environment:
+      - MONGODB_HOST=db
+      - VIRTUAL_HOST=foosball.schalpoen.nl
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=foosball.schalpoen.nl
+      - LETSENCRYPT_EMAIL=thijs@schalpoen.nl
+    depends_on:
+      - db
+    networks:
+      - backend
+      - frontend
+  db:
+    image: mongo:3.6
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - backend
+  nginx:
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - frontend
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - nginx_certs:/etc/nginx/certs:ro
+      - nginx_vhost_config:/etc/nginx/vhost.d:rw
+      - letsencrypt_challenge_files:/usr/share/nginx/html:rw
+    labels:
+      # Let letsencrypt know which container to use:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+  nginx-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.7
+    depends_on:
+      - nginx
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nginx_certs:/etc/nginx/certs:rw
+      - nginx_vhost_config:/etc/nginx/vhost.d:rw
+      - letsencrypt_challenge_files:/usr/share/nginx/html:rw
+networks:
+  frontend: {}
+  backend: {}
+volumes:
+  mongodb-data: {}
+  nginx_certs: {} # Written by letsencrypt or possibly any other method
+  nginx_vhost_config: {} # Needed to respond to letsencrypt challenges
+  letsencrypt_challenge_files: {} # To host letsencrypt challenge files

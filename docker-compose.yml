@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    image: focuscura/foosballelo-api
+    build:
+      dockerfile: docker/app/Dockerfile
+      context: .
+    volumes:
+      # Use local directory for faster development
+      - ./:/app
+    environment:
+      - MONGODB_HOST=db
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+  db:
+    image: mongo:3.6
+    volumes:
+      - mongodb-data:/data/db
+volumes:
+  mongodb-data: {}
