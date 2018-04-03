@@ -4,6 +4,7 @@ var router = express.Router();
 var webappController = require('../controllers/WebappController');
 var playersController = require('../controllers/PlayersController');
 var matchesController = require('../controllers/MatchesController');
+var eventsController = require('../controllers/EventsController');
 
 router.route('/')
     .get(webappController.index);
@@ -16,5 +17,10 @@ router.route('/players/:id')
 
 router.route('/matches')
     .post(matchesController.create);
+
+router.route('/events/players')
+    .get(eventsController.players);
+router.route('/events/matches')
+    .get(eventsController.matches);
 
 module.exports = router;
