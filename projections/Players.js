@@ -36,6 +36,12 @@ var adjustTwoPlayers = function (matchConcluded) {
     var winnerOne = players[matchConcluded.winner_one];
     var loserOne = players[matchConcluded.loser_one];
 
+    if (!winnerOne || !loserOne) {
+        console.error('Unknown winner or player');
+        console.error(matchConcluded);
+        return;
+    }
+
     var newWinnerOneRating = adjust(winnerOne.rating, loserOne.rating, 1);
     var newLoserOneRating = adjust(loserOne.rating, winnerOne.rating, 0);
 
@@ -51,6 +57,12 @@ var adjustFourPlayersAveraged = function (matchConcluded) {
     var loserOne = players[matchConcluded.loser_one];
     var winnerTwo = players[matchConcluded.winner_two];
     var loserTwo = players[matchConcluded.loser_two];
+
+    if (!winnerOne || !loserOne || !winnerTwo || !loserTwo) {
+        console.error('Unknown player');
+        console.error(matchConcluded);
+        return;
+    }
 
     var winnersRating = (winnerOne.rating + winnerTwo.rating) / 2;
     var losersRating = (loserOne.rating + loserTwo.rating) / 2;

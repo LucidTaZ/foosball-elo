@@ -5,6 +5,7 @@ services:
     build:
       dockerfile: docker/app/Dockerfile
       context: .
+    restart: always
     environment:
       - MONGODB_HOST=db
       - VIRTUAL_HOST=foosball.schalpoen.nl
