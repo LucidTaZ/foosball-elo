@@ -13,7 +13,8 @@ exports.projectPlayerRegistered = function (playerRegistered) {
     players[id] = {
         id: id,
         name: playerRegistered.name,
-        rating: 1500
+        rating: 1500,
+        matchesPlayed: 0
     };
 };
 
@@ -40,6 +41,9 @@ var adjustTwoPlayers = function (matchConcluded) {
 
     winnerOne.rating = newWinnerOneRating;
     loserOne.rating = newLoserOneRating;
+
+    winnerOne.matchesPlayed++;
+    loserOne.matchesPlayed++;
 };
 
 var adjustFourPlayersAveraged = function (matchConcluded) {
@@ -60,6 +64,11 @@ var adjustFourPlayersAveraged = function (matchConcluded) {
     loserOne.rating = newLoserOneRating;
     winnerTwo.rating = newWinnerTwoRating;
     loserTwo.rating = newLoserTwoRating;
+
+    winnerOne.matchesPlayed++;
+    loserOne.matchesPlayed++;
+    winnerTwo.matchesPlayed++;
+    loserTwo.matchesPlayed++;
 };
 
 exports.projectMatchConcluded = function (matchConcluded) {

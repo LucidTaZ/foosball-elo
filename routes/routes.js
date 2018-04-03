@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+var webappController = require('../controllers/WebappController');
 var playersController = require('../controllers/PlayersController');
 var matchesController = require('../controllers/MatchesController');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Foosball ELO' });
-});
+router.route('/')
+    .get(webappController.index);
 
 router.route('/players')
     .get(playersController.list)
@@ -15,7 +14,6 @@ router.route('/players')
 router.route('/players/:id')
     .get(playersController.show);
 
-/* GET matches listing. */
 router.route('/matches')
     .post(matchesController.create);
 
