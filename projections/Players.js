@@ -1,3 +1,5 @@
+var elo = require('../game/Elo');
+
 var players = {};
 
 exports.all = function () {
@@ -18,20 +20,6 @@ exports.projectPlayerRegistered = function (playerRegistered) {
     };
 };
 
-var adjust = function (rating, opponentRating, score) {
-    // Transformed ratings:
-    var rPlayer = Math.pow(10, rating / 400);
-    var rOpponent = Math.pow(10, opponentRating / 400);
-
-    // Expected win chance:
-    var ePlayer = rPlayer / (rPlayer + rOpponent);
-
-    // K-factor, measure of impact:
-    var K = 32;
-
-    return rating + Math.round(K * (score - ePlayer));
-};
-
 var adjustTwoPlayers = function (matchConcluded) {
     var winnerOne = players[matchConcluded.winner_one];
     var loserOne = players[matchConcluded.loser_one];
@@ -42,11 +30,9 @@ var adjustTwoPlayers = function (matchConcluded) {
         return;
     }
 
-    var newWinnerOneRating = adjust(winnerOne.rating, loserOne.rating, 1);
-    var newLoserOneRating = adjust(loserOne.rating, winnerOne.rating, 0);
-
-    winnerOne.rating = newWinnerOneRating;
-    loserOne.rating = newLoserOneRating;
+    var deltaRatings = elo.calculateMatchOutcomesTwoPlayers(winnerOne.rating, loserOne.rating);
+    winnerOne.rating += deltaRatings[0];
+    loserOne.rating += deltaRatings[1];
 
     winnerOne.matchesPlayed++;
     loserOne.matchesPlayed++;
@@ -64,18 +50,12 @@ var adjustFourPlayersAveraged = function (matchConcluded) {
         return;
     }
 
-    var winnersRating = (winnerOne.rating + winnerTwo.rating) / 2;
-    var losersRating = (loserOne.rating + loserTwo.rating) / 2;
+    var deltaRatings = elo.calculateMatchOutcomesFourPlayers(winnerOne, winnerTwo, loserOne, loserTwo);
 
-    var newWinnerOneRating = adjust(winnerOne.rating, losersRating, 1);
-    var newLoserOneRating = adjust(loserOne.rating, winnersRating, 0);
-    var newWinnerTwoRating = adjust(winnerTwo.rating, losersRating, 1);
-    var newLoserTwoRating = adjust(loserTwo.rating, winnersRating, 0);
-
-    winnerOne.rating = newWinnerOneRating;
-    loserOne.rating = newLoserOneRating;
-    winnerTwo.rating = newWinnerTwoRating;
-    loserTwo.rating = newLoserTwoRating;
+    winnerOne.rating += deltaRatings[0];
+    winnerTwo.rating += deltaRatings[1];
+    loserOne.rating += deltaRatings[2];
+    loserTwo.rating += deltaRatings[3];
 
     winnerOne.matchesPlayed++;
     loserOne.matchesPlayed++;
