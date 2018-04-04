@@ -1,5 +1,11 @@
 extends layout
 
+mixin outcomeLine(player, rating)
+  if rating < 0
+    li(style="color: red") #{player.name}: #{rating}
+  else
+    li(style="color: green") #{player.name}: #{rating}
+
 block content
   h1= title
   p Welcome to #{title}
@@ -16,3 +22,26 @@ block content
         td= player.name
         td= player.rating
         td= player.matchesPlayed
+
+  p Matches are:
+  table(border=1)
+    tr
+      th id
+      th Moment
+      th Outcome
+    each match in matches
+      tr
+        td= match.id
+        td= match.moment
+        if match.players.winner_two
+          td
+            ul
+              +outcomeLine(match.players.winner_one, match.outcome.winner_one)
+              +outcomeLine(match.players.winner_two, match.outcome.winner_two)
+              +outcomeLine(match.players.loser_one, match.outcome.loser_one)
+              +outcomeLine(match.players.loser_two, match.outcome.loser_two)
+        else
+          td
+            ul
+              +outcomeLine(match.players.winner_one, match.outcome.winner_one)
+              +outcomeLine(match.players.loser_one, match.outcome.loser_one)

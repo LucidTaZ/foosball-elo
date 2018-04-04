@@ -7,6 +7,7 @@ exports.all = function () {
 };
 
 exports.find = function (id) {
+    // TODO: Exception when not found
     return players[id];
 };
 
@@ -21,14 +22,8 @@ exports.projectPlayerRegistered = function (playerRegistered) {
 };
 
 var adjustTwoPlayers = function (matchConcluded) {
-    var winnerOne = players[matchConcluded.winner_one];
-    var loserOne = players[matchConcluded.loser_one];
-
-    if (!winnerOne || !loserOne) {
-        console.error('Unknown winner or player');
-        console.error(matchConcluded);
-        return;
-    }
+    var winnerOne = exports.find(matchConcluded.winner_one);
+    var loserOne = exports.find(matchConcluded.loser_one);
 
     var deltaRatings = elo.calculateMatchOutcomesTwoPlayers(winnerOne.rating, loserOne.rating);
     winnerOne.rating += deltaRatings[0];
@@ -39,18 +34,17 @@ var adjustTwoPlayers = function (matchConcluded) {
 };
 
 var adjustFourPlayersAveraged = function (matchConcluded) {
-    var winnerOne = players[matchConcluded.winner_one];
-    var loserOne = players[matchConcluded.loser_one];
-    var winnerTwo = players[matchConcluded.winner_two];
-    var loserTwo = players[matchConcluded.loser_two];
+    var winnerOne = exports.find(matchConcluded.winner_one);
+    var loserOne = exports.find(matchConcluded.loser_one);
+    var winnerTwo = exports.find(matchConcluded.winner_two);
+    var loserTwo = exports.find(matchConcluded.loser_two);
 
-    if (!winnerOne || !loserOne || !winnerTwo || !loserTwo) {
-        console.error('Unknown player');
-        console.error(matchConcluded);
-        return;
-    }
-
-    var deltaRatings = elo.calculateMatchOutcomesFourPlayers(winnerOne, winnerTwo, loserOne, loserTwo);
+    var deltaRatings = elo.calculateMatchOutcomesFourPlayers(
+        winnerOne.rating,
+        winnerTwo.rating,
+        loserOne.rating,
+        loserTwo.rating
+    );
 
     winnerOne.rating += deltaRatings[0];
     winnerTwo.rating += deltaRatings[1];

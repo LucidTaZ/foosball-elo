@@ -16,7 +16,10 @@ router.route('/players/:id')
     .get(playersController.show);
 
 router.route('/matches')
+    .get(matchesController.list)
     .post(matchesController.create);
+router.route('/matches/:id')
+    .get(matchesController.show);
 
 router.route('/events/players')
     .get(eventsController.players);

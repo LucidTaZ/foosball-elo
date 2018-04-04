@@ -47,11 +47,17 @@ app.use(function(err, req, res, next) {
 
 // Project all persistent events to in-memory projection:
 var Players = require('./projections/Players');
+var Matches = require('./projections/Matches');
 PlayerRegisteredModel.find({}, function (err, playerEvents) {
     playerEvents.forEach(Players.projectPlayerRegistered);
 
     MatchConcludedModel.find({}, function (err, matchEvents) {
-        matchEvents.forEach(Players.projectMatchConcluded);
+        matchEvents.forEach(function(e) {
+            // FIXME: Order is dependent since Matches uses the current players'
+            // ratings to show deltas, while Players updates them.
+            Matches.projectMatchConcluded(e);
+            Players.projectMatchConcluded(e);
+        });
     });
 });
 
