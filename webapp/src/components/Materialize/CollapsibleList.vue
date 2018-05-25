@@ -8,6 +8,7 @@
 export default {
     name: 'CollapsibleList',
     mounted() {
+        // eslint-disable-next-line
         M.Collapsible.init(this.$el)
     }
 }
