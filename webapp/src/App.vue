@@ -3,6 +3,7 @@
     <Navbar logo="Foosball ELO">
       <li><router-link v-bind:to="'/playground'">Playground</router-link></li>
       <li><router-link v-bind:to="'/players'">Players</router-link></li>
+      <li><router-link v-bind:to="'/matches'">Matches</router-link></li>
     </Navbar>
     <router-view :server="server"></router-view>
   </div>
