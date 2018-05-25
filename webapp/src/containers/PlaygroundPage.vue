@@ -6,10 +6,12 @@
       <li><a href="#">Test</a></li>
     </Navbar>
     <Navbar logo="Navbar without buttons"></Navbar>
-    <Card title="Sample card">
-      <template slot="content">Card content</template>
-      <template slot="action">Card actions</template>
-    </Card>
+    <div class="row">
+      <Card title="Sample card">
+        <template slot="content">Card content</template>
+        <template slot="action">Card actions</template>
+      </Card>
+    </div>
     <CollapsibleList>
       <CollapsibleElement>
         <template slot="header">Sample collapsible one</template>
@@ -22,11 +24,15 @@
     </CollapsibleList>
 
     Sample player:<br />
-    <Player name="Thijs" :rating=1337 :matchesPlayed=3 />
+    <div class="row">
+      <Player name="Thijs" :rating=1337 :matchesPlayed=3 />
+    </div>
 
     Sample matches:<br />
-    <Match moment="2018-03-30T12:51:35.111Z" :players="{winner_one: {name: 'Jack'}, loser_one: {name: 'Bob'}}" :outcome="{winner_one: 16, loser_one: -16}" />
-    <Match moment="2018-03-31T13:52:36.123Z" :players="{winner_one: {name: 'Jack'}, winner_two: {name: 'John'}, loser_one: {name: 'Bob'}, loser_two: {name: 'Rob'}}" :outcome="{winner_one: 16, winner_two: 13, loser_one: -15, loser_two: -14}" />
+    <div class="row">
+      <Match moment="2018-03-30T12:51:35.111Z" :players="{winner_one: {name: 'Jack'}, loser_one: {name: 'Bob'}}" :outcome="{winner_one: 16, loser_one: -16}" />
+      <Match moment="2018-03-31T13:52:36.123Z" :players="{winner_one: {name: 'Jack'}, winner_two: {name: 'John'}, loser_one: {name: 'Bob'}, loser_two: {name: 'Rob'}}" :outcome="{winner_one: 16, winner_two: 13, loser_one: -15, loser_two: -14}" />
+    </div>
 
     Sample player list:<br />
     <PlayersList :players="[{id: '123abc', name: 'Jack', rating: 1337, matchesPlayed: 3}]" />

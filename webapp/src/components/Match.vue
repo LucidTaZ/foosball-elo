@@ -1,7 +1,7 @@
 <template>
   <Card class="match" title="Match">
     <template slot="content">
-      Played on {{ moment }}
+      Played on {{ moment.substring(0, 10) }}
       <div v-if="!isTwoVersusTwo">
         <PlayerMatchOutcome :name=players.winner_one.name :outcome=outcome.winner_one />
         vs

@@ -1,7 +1,9 @@
 <template>
   <div class="players">
     <h2>Players</h2>
-    <Player v-for="player in players" :key="player.id" :name="player.name" :rating="player.rating" :matchesPlayed="player.matchesPlayed"></Player>
+    <div class="row">
+      <Player v-for="player in descendingRatingPlayers" :key="player.id" :name="player.name" :rating="player.rating" :matchesPlayed="player.matchesPlayed"></Player>
+    </div>
 
     <FloatingAddButton v-on:click="showNewPlayerForm" />
     <AddPlayerModal ref="addPlayerModal" :server="server" v-on:playerCreated="refresh()" />
@@ -28,6 +30,13 @@ export default {
     },
     props: {
         server: String
+    },
+    computed: {
+        descendingRatingPlayers: function () {
+            return this.players.sort((a, b) => {
+                return b.rating - a.rating
+            })
+        }
     },
     methods: {
         showNewPlayerForm: function () {

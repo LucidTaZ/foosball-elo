@@ -1,7 +1,7 @@
 <template>
   <div class="homepage">
     <h2>Current standing</h2>
-    <PlayersList :players="players" />
+    <PlayersList :players="descendingRatingPlayers" />
   </div>
 </template>
 
@@ -17,6 +17,13 @@ export default {
   },
   props: {
     server: String
+  },
+  computed: {
+    descendingRatingPlayers: function () {
+      return this.players.sort((a, b) => {
+        return b.rating - a.rating
+      })
+    }
   },
   data() {
     return {

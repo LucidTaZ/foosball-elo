@@ -1,7 +1,9 @@
 <template>
   <div class="matches">
     <h2>Matches</h2>
-    <Match v-for="match in matches" :key="match.id" :moment="match.moment" :players="match.players" :outcome="match.outcome"></Match>
+    <div class="row">
+      <Match v-for="match in matches" :key="match.id" :moment="match.moment" :players="match.players" :outcome="match.outcome"></Match>
+    </div>
   </div>
 </template>
 
