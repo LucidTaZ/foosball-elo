@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Card from '../Materialize/Card.vue'
+import Card from './Materialize/Card.vue'
 
 export default {
   name: 'Player',

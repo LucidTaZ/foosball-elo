@@ -8,7 +8,7 @@
 <script>
 import axios from 'axios'
 
-import Player from '../components/Player/Player.vue'
+import Player from '../components/Player.vue'
 
 export default {
   name: 'Players',
