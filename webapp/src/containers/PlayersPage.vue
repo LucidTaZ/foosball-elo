@@ -11,7 +11,7 @@ import axios from 'axios'
 import Player from '../components/Player.vue'
 
 export default {
-  name: 'Players',
+  name: 'PlayersPage',
   components: {
     Player
   },
