@@ -18,6 +18,19 @@ services:
       - backend
       - frontend
       - entry
+  webapp:
+    image: focuscura/foosballelo-webapp
+    build:
+      dockerfile: docker/Dockerfile
+      context: webapp
+    restart: always
+    environment:
+      - VIRTUAL_HOST=foosball.schalpoen.nl
+      - LETSENCRYPT_HOST=foosball.schalpoen.nl
+      - LETSENCRYPT_EMAIL=thijs@schalpoen.nl
+    networks:
+      - frontend
+      - entry
   db:
     image: mongo:3.6
     volumes:
@@ -32,6 +45,3 @@ networks:
       name: nginx-proxy
 volumes:
   mongodb-data: {}
-  nginx_certs: {} # Written by letsencrypt or possibly any other method
-  nginx_vhost_config: {} # Needed to respond to letsencrypt challenges
-  letsencrypt_challenge_files: {} # To host letsencrypt challenge files

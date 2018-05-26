@@ -19,7 +19,7 @@
         },
         data() {
             return {
-                // TODO: Take API server from env
+                // TODO: Take API server from env during runtime when running non-development (write and serve a conf file during container start?)
                 server: 'http://localhost:3000'
             }
         }

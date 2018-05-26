@@ -14,6 +14,13 @@ services:
       - 3000:3000
     depends_on:
       - db
+  webapp:
+    image: focuscura/foosballelo-webapp
+    build:
+      dockerfile: docker/Dockerfile
+      context: webapp
+    ports:
+      - 3001:80
   db:
     image: mongo:3.6
     volumes:

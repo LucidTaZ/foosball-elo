@@ -34,11 +34,9 @@ export default {
         },
         submitPlayer: function () {
             // https://alligator.io/vuejs/rest-api-axios/
-            console.log(this.name)
             axios.post(this.server + '/players', {
                   name: this.name
             }).then(response => {
-                console.log(response)
                 this.$emit('playerCreated')
             })
             // TODO: Proper error handling, currently you can post without a name, the modal will close without showing errors

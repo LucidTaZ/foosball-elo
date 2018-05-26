@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     descendingRatingPlayers: function () {
-      return this.players.sort((a, b) => {
+      return this.players.slice().sort((a, b) => {
         return b.rating - a.rating
       })
     }
